@@ -33,6 +33,7 @@ class Background {
         if (this.y > canvas.height){
             this.y = 0
         }
+        // Velocidad con la que baja el background
         this.y ++;
 
     }
@@ -88,15 +89,23 @@ class Ship{
 
 // Construir los enemigos
 
-class Enemy extends Ship {
+class Enemy {
     constructor (x, y, width, height){
-    super(x, y, width, height)
+    this.x = x
+    this.y = y
+    this.width = width
+    this.height = height
     this.enemyImg = new Image()
     this.enemyImg.src = "./images/enemy.png"
     }
 
     drawEnemy() {
-        this.x += 2;
+
+        // Velocidad con la que se moverá el enemigo cada 10 frames
+        if(frames % 2 === 0){
+            this.y += 3;
+        }
+        
         
         ctx.drawImage(
             this.enemyImg,
@@ -105,10 +114,5 @@ class Enemy extends Ship {
             this.width,
             this.height
         )
-        
-        // if (this.x = canvas.width - this.width){
-        //     this.x -= 2
-        // }
-        
     }
 }
