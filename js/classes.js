@@ -63,8 +63,22 @@ class Ship{
         this.speedX = 0
     }
 
+    // Método para dibujar la nave
     drawShip(){
+        // Se dibuja la nave tomando los valores del constructor cuando se crea la variable ship
         ctx.drawImage(this.shipImg, this.x, this.y, this.width, this.height)
+
+        // Se definen los límites de la nave dentro del area de juego para que no se salga/desaparezca
+        
+        // Límite lado izquierdo
+        if(this.x <= 0){
+            this.x = 0
+        }
+        
+        // Limite lado derecho
+        if(this.x >= canvas.width - this.width){
+            this.x = canvas.width - this.width
+        }
     }
 
     newPosition() {
@@ -73,3 +87,28 @@ class Ship{
 }
 
 // Construir los enemigos
+
+class Enemy extends Ship {
+    constructor (x, y, width, height){
+    super(x, y, width, height)
+    this.enemyImg = new Image()
+    this.enemyImg.src = "./images/enemy.png"
+    }
+
+    drawEnemy() {
+        this.x += 2;
+        
+        ctx.drawImage(
+            this.enemyImg,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        )
+        
+        // if (this.x = canvas.width - this.width){
+        //     this.x -= 2
+        // }
+        
+    }
+}

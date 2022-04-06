@@ -7,6 +7,7 @@ window.onload = function () {
     //                         Para que ocupe todo lo que mida el canvas (ancho y alto)
     const backGround = new Background (canvas.width, canvas.height)
     const ship = new Ship (330, 430, 50, 50)
+    const enemy = new Enemy(50, 10, 50, 50)
 
     document.getElementById("start-button").onclick = function () {
         startGame();
@@ -35,6 +36,9 @@ window.onload = function () {
 
         // Invocacion para dibujar la nave
         ship.drawShip()
+
+        // Invocacion para agregar un enemigo
+        enemy.drawEnemy()
 
 
         // Cuando se ejecute, ejecuta otra vez updateGame
