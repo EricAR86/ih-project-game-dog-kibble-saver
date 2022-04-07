@@ -2,7 +2,10 @@
 
 body {
     text-align: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     background-color: #102539;
+    background-image: url("../images/planet.png");
 }
 
 /* Crea un contorno al rededor del canvas */

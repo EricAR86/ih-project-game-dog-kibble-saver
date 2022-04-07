@@ -10,7 +10,7 @@ window.onload = function () {
     const ship = new Ship (330, 430, 50, 50)
     
     // Crear variable para imagen Game Over
-    const gameOverImg = new GameOver (400, 400, 100, 100)
+    //const gameOverImg = new GameOver (400, 400, 100, 100)
 
     document.getElementById("start-button").onclick = function () {
         if(!requestId){
@@ -20,8 +20,7 @@ window.onload = function () {
 
     // Funcion para iniciar el juego cuando le demos en botón Start Game
     function startGame() {
-        // prueba antes del GameOver
-        // updateGame()
+       
 
         // final
         audio.play()
@@ -32,7 +31,8 @@ window.onload = function () {
     function gameOver() {
         console.log("Es Game Over")
         audio.pause()
-        gameOverImg.drawGameOver()
+        //gameOverImg.drawGameOver()
+        backGround.gameOver()
         requestId = undefined
     };
 
@@ -64,6 +64,14 @@ window.onload = function () {
 
         // Invocamos funcion para pintar/dibujar enemigos
         drawEnemies()
+        
+        //if(ship.y + ship.height > canvas.height) {
+        //    gameOver()
+        //}
+
+        // if(requestId) {
+        //     requestAnimationFrame(updateGame)
+        // }
 
     }
 
@@ -118,13 +126,13 @@ window.onload = function () {
 
                 }
             })
-            
         })
     }
 
     // Function para generar las balas
     function generateShipMissil() {
-        const shipMissil = new Shipmissil (ship.x + ship.width, ship.y)
+        const shipMissil = new Shipmissil (ship.x + (ship.width/3), ship.y)
+        
         // Si el arreglo shipMissil[] esta vacio le agrega un misil
         if(!shipMissiles.length){
             shipMissiles.push(shipMissil)
@@ -148,7 +156,7 @@ window.onload = function () {
             break; 
         }
     })
-    
+    // Evento para hacer que la nave se detenga cuando soltamos una tecla
     document.addEventListener("keyup",(evento)=>{
         ship.speedX = 0
       })

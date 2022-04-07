@@ -9,8 +9,9 @@ class Background {
         this.height = height;
         this.backImg = new Image();
         this.backImg.src = "./images/background.png"
-        //this.gameOverImg = new Image();
-        //this.gameOverImg.scr ="./images/gameover.png"
+        this.gameOverImg = new Image();
+        this.gameOverImg.src ="./images/gameover.png"
+        //this.gameOverImg.src ="https://imagizer.imageshack.com/img923/4189/KiFLNY.png"
     }
 
     // Metodos, lo que va a hacer/acciones
@@ -36,6 +37,10 @@ class Background {
         // Velocidad con la que baja el background
         this.y ++;
 
+    }
+
+    gameOver() {
+        ctx.drawImage (this.gameOverImg, 160, 50, 400, 400)
     }
 }
 
@@ -128,17 +133,16 @@ class Enemy {
 // Constructor de los misiles de la nave
 class Shipmissil extends Ship {
     constructor(x, y){
-        super(x, y, 30, 30)
+        super(x, y, 50, 50)
         this.shipMissImg = new Image()
-        this.shipMissImg.scr = "./images/shipmissile.png"
+        this.shipMissImg.src = "./images/shipmissile.png"
     }
 
     // Metodo para dibujar la imagen del misil de la nave
     drawShipMissil() {
-        console.log("se dibuja bala?")
         
         // El misil avanza 2 pixeles de abajo hacia arriba
-        this.y =- 2
+        this.y -= 3
         ctx.drawImage(
             this.shipMissImg,
             this.x,
@@ -150,7 +154,7 @@ class Shipmissil extends Ship {
 }
 
 // Hacer imagen de game over
-class GameOver {
+/* class GameOver {
     constructor(x, y, width, height){
         this.x = x;
         this.y = y;
@@ -171,4 +175,4 @@ class GameOver {
             this.height
             )
     }
-}
+} */
