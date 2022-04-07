@@ -7,6 +7,8 @@
 const canvas = document.getElementById("my-canvas");
 const ctx = canvas.getContext("2d");
 
+let points = 0
+
 let frames = 0;
 
 // Arreglo donde se van a guardar los enemigos
@@ -28,3 +30,4 @@ audio.loop = true
 //let shipDefault = {
 //    lifes: 3,
 //}
+

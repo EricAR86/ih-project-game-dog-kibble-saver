@@ -11,6 +11,8 @@ class Background {
         this.backImg.src = "./images/background.png"
         this.gameOverImg = new Image();
         this.gameOverImg.src ="./images/gameover.png"
+        this.winImg = new Image();
+        this.winImg.src ="./images/win.png"
         //this.gameOverImg.src ="https://imagizer.imageshack.com/img923/4189/KiFLNY.png"
     }
 
@@ -40,7 +42,11 @@ class Background {
     }
 
     gameOver() {
-        ctx.drawImage (this.gameOverImg, 160, 50, 400, 400)
+        ctx.drawImage (this.gameOverImg, 160, 100, 400, 250)
+    }
+
+    winGame() {
+        ctx.drawImage (this.winImg, 160, 100, 400, 200)
     }
 }
 
@@ -117,7 +123,7 @@ class Enemy {
 
         // Velocidad con la que se moverá el enemigo cada 10 frames
         if(frames % 2 === 0){
-            this.y += 3;
+            this.y += 2;
         }
         
         ctx.drawImage(
@@ -161,7 +167,7 @@ class Shipmissil extends Ship {
         this.width = width;
         this.height = height;
         this.goImg = new Image();
-        this.goImg.scr ="https://imagizer.imageshack.com/img923/4189/KiFLNY.png"
+        this.goImg.src ="https://imagizer.imageshack.com/img923/4189/KiFLNY.png"
     }
 
     // Método para dibujar la imagen de Game Over cuando perdamos
@@ -176,3 +182,4 @@ class Shipmissil extends Ship {
             )
     }
 } */
+

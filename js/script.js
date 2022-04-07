@@ -9,9 +9,6 @@ window.onload = function () {
     // Crear variable para crear a la nave
     const ship = new Ship (330, 430, 50, 50)
     
-    // Crear variable para imagen Game Over
-    //const gameOverImg = new GameOver (400, 400, 100, 100)
-
     document.getElementById("start-button").onclick = function () {
         if(!requestId){
         startGame();
@@ -20,7 +17,6 @@ window.onload = function () {
 
     // Funcion para iniciar el juego cuando le demos en botón Start Game
     function startGame() {
-       
 
         // final
         audio.play()
@@ -29,10 +25,16 @@ window.onload = function () {
     }
 
     function gameOver() {
-        console.log("Es Game Over")
+        //console.log("Es Game Over")
         audio.pause()
-        //gameOverImg.drawGameOver()
         backGround.gameOver()
+        requestId = undefined
+    };
+
+    function winGame() {
+        
+        audio.pause()
+        backGround.winGame()
         requestId = undefined
     };
 
@@ -64,15 +66,14 @@ window.onload = function () {
 
         // Invocamos funcion para pintar/dibujar enemigos
         drawEnemies()
+
+        // Invocar la funcion del Score para que se dibuje
         
-        //if(ship.y + ship.height > canvas.height) {
-        //    gameOver()
-        //}
+        ctx.font = "25px Arial"
+        ctx.fillText(`Score: ${points}` , 50,50)
+        ctx.fillStyle = "white"
 
-        // if(requestId) {
-        //     requestAnimationFrame(updateGame)
-        // }
-
+        
     }
 
     // Genera y dibuja enemigos en el canvas
@@ -86,7 +87,7 @@ window.onload = function () {
         if( (frames % 100 === 0 ) ) {
             
             // Se crea variable al azar y se guarda como el eje x
-            let x = Math.floor(Math.random() * (700 - 50) + 50)
+            let x = Math.floor(Math.random() * (700 - 100) + 100)
             
             // Se crea el enemigo usando el Constructor
             const enemy = new Enemy(x, 10, 60, 50)
@@ -119,11 +120,15 @@ window.onload = function () {
 
                 // Si el misil de la nave colisiona contra el enemigo..
                 if(shipMissil.collision(enemy)){
+                    points ++
                     // Elimina el enemigo del arreglo de enemigos
                     enemies.splice(index_enemy, 1)
                     // Elimina la bala del arreglo de balas
                     shipMissiles.pop()
 
+                }
+                if (points >= 15){
+                    winGame()
                 }
             })
         })
@@ -131,7 +136,7 @@ window.onload = function () {
 
     // Function para generar las balas
     function generateShipMissil() {
-        const shipMissil = new Shipmissil (ship.x + (ship.width/3), ship.y)
+        const shipMissil = new Shipmissil (ship.x + (ship.width/20), ship.y)
         
         // Si el arreglo shipMissil[] esta vacio le agrega un misil
         if(!shipMissiles.length){
@@ -139,6 +144,17 @@ window.onload = function () {
         }
     }
 
+    // Function para dibujar Score en pantalla
+    // function drawScore() {
+        
+    //     const points = Math.floor(frames / 5)
+    //     ctx.font = "25px arial"
+    //     ctx.fillStyle = "white"
+    //     ctx.fillText(`Score: ${points}`, 50, 50)
+    // }
+
+    
+    
     
     // Evento que sirven para manejar la nave
     addEventListener("keydown", (evento) =>{
@@ -159,5 +175,5 @@ window.onload = function () {
     // Evento para hacer que la nave se detenga cuando soltamos una tecla
     document.addEventListener("keyup",(evento)=>{
         ship.speedX = 0
-      })
+    })
 }
