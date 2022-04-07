@@ -1,5 +1,5 @@
 
-console.log("hola script")
+//console.log("hola script")
 window.onload = function () {
     
 
@@ -8,24 +8,37 @@ window.onload = function () {
     const backGround = new Background (canvas.width, canvas.height)
     // Crear variable para crear a la nave
     const ship = new Ship (330, 430, 50, 50)
-    // Ejemplo crear variable para 1 enemigo
-    //const enemy = new Enemy(50, 10, 50, 50)
+    
+    // Crear variable para imagen Game Over
+    const gameOverImg = new GameOver (400, 400, 100, 100)
 
     document.getElementById("start-button").onclick = function () {
+        if(!requestId){
         startGame();
+        }
     };
 
     // Funcion para iniciar el juego cuando le demos en botón Start Game
     function startGame() {
-        updateGame()
+        // prueba antes del GameOver
+        // updateGame()
 
+        // final
+        audio.play()
+        requestId = requestAnimationFrame(updateGame)
+        
+    }
+
+    function gameOver() {
+        console.log("Es Game Over")
+        audio.pause()
+        gameOverImg.drawGameOver()
+        requestId = undefined
     };
 
-    function gameOver() {};
-
-    // Este es el motor del juego 
+    // Este es el motor del juego
     function updateGame() {
-        console.log("motor funcionando...")
+        //console.log("motor funcionando...")
 
         // Los frames nos permite declarar que algo pase a determinados frames, se suman en valor de 1
         frames ++
@@ -42,19 +55,16 @@ window.onload = function () {
         // Invocacion para dibujar la nave
         ship.drawShip()
 
+        if(requestId){
+            requestAnimationFrame(updateGame)
+        }
+
         // Invocamos funcion para generar enemigos
         generateEnemies()
 
         // Invocamos funcion para pintar/dibujar enemigos
         drawEnemies()
 
-
-        // Ejemplo Invocacion para agregar un enemigo
-        //enemy.drawEnemy()
-
-
-        // Cuando se ejecute, ejecuta otra vez updateGame
-        requestAnimationFrame(updateGame)
     }
 
     // Genera y dibuja enemigos en el canvas
@@ -84,22 +94,58 @@ window.onload = function () {
         enemies.forEach((enemy, index_enemy) => {
             enemy.drawEnemy()
 
-            // colision contra nave
-            // colision contra bala de nave
+            // colision de un enemigo contra una nave es Game Over
+            if(ship.collision(enemy)){
+                gameOver()
+            }
+            
+            // If para hacer que sea game over si un enemigo llega hasta el fondo
+            // Si el valor del eje Y + la altura del enemigo es mayor a la altura del canvas/area de juego es game over
+            if (enemy.y + enemy.height > canvas.height){
+                gameOver()
+            }
+            // colision contra bala de nave y se dibuje la bala
+            shipMissiles.forEach((shipMissil, index_missil) => {
+                // Dibuja el misil de la nave
+                shipMissil.drawShipMissil()
 
+                // Si el misil de la nave colisiona contra el enemigo..
+                if(shipMissil.collision(enemy)){
+                    // Elimina el enemigo del arreglo de enemigos
+                    enemies.splice(index_enemy, 1)
+                    // Elimina la bala del arreglo de balas
+                    shipMissiles.pop()
+
+                }
+            })
+            
         })
     }
 
+    // Function para generar las balas
+    function generateShipMissil() {
+        const shipMissil = new Shipmissil (ship.x + ship.width, ship.y)
+        // Si el arreglo shipMissil[] esta vacio le agrega un misil
+        if(!shipMissiles.length){
+            shipMissiles.push(shipMissil)
+        }
+    }
+
+    
+    // Evento que sirven para manejar la nave
     addEventListener("keydown", (evento) =>{
         switch (evento.key) {
             case "ArrowRight" :
                 ship.speedX +=1
-                break;
-                case "ArrowLeft":
+            break;
+            case "ArrowLeft":
                 ship.speedX -=1
-                break;
+            break;
+            case " " :
+                generateShipMissil()
+            break;
             default:
-                break; 
+            break; 
         }
     })
     

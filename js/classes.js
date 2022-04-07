@@ -1,6 +1,6 @@
 
 // Construir background
-console.log("hola classes")
+//console.log("hola classes")
 class Background {
     constructor(width, height){
         this.x = 0;
@@ -9,8 +9,8 @@ class Background {
         this.height = height;
         this.backImg = new Image();
         this.backImg.src = "./images/background.png"
-        this.gameOverImg = new Image();
-        this.gameOverImg.scr ="./image/gameover.png"
+        //this.gameOverImg = new Image();
+        //this.gameOverImg.scr ="./images/gameover.png"
     }
 
     // Metodos, lo que va a hacer/acciones
@@ -37,16 +37,6 @@ class Background {
         this.y ++;
 
     }
-
-    gameOver(){
-        ctx.drawImage(
-            this.gameOverImg, 
-            300,
-            140,
-            400,
-            400
-            )
-    }
 }
 
     
@@ -67,7 +57,13 @@ class Ship{
     // Método para dibujar la nave
     drawShip(){
         // Se dibuja la nave tomando los valores del constructor cuando se crea la variable ship
-        ctx.drawImage(this.shipImg, this.x, this.y, this.width, this.height)
+        ctx.drawImage(
+            this.shipImg, 
+            this.x, 
+            this.y, 
+            this.width, 
+            this.height
+        )
 
         // Se definen los límites de la nave dentro del area de juego para que no se salga/desaparezca
         
@@ -82,9 +78,22 @@ class Ship{
         }
     }
 
+     // Metodo o funcion que nos evalua la colision de la nave contra el enemigo
+    // recibe un parametro que es el enemigo (item)
+    collision(item) {
+        // Este return nos regresa un true o false
+        return (
+            this.x < item.x + item.width &&
+            this.x + this.width > item.x &&
+            this.y < item.y + item.height &&
+            this.y + this.height > item.y
+        )
+    }
+
     newPosition() {
         this.x += this.speedX
     }
+
 }
 
 // Construir los enemigos
@@ -106,7 +115,6 @@ class Enemy {
             this.y += 3;
         }
         
-        
         ctx.drawImage(
             this.enemyImg,
             this.x,
@@ -114,5 +122,53 @@ class Enemy {
             this.width,
             this.height
         )
+    }
+}
+
+// Constructor de los misiles de la nave
+class Shipmissil extends Ship {
+    constructor(x, y){
+        super(x, y, 30, 30)
+        this.shipMissImg = new Image()
+        this.shipMissImg.scr = "./images/shipmissile.png"
+    }
+
+    // Metodo para dibujar la imagen del misil de la nave
+    drawShipMissil() {
+        console.log("se dibuja bala?")
+        
+        // El misil avanza 2 pixeles de abajo hacia arriba
+        this.y =- 2
+        ctx.drawImage(
+            this.shipMissImg,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        )
+    }
+}
+
+// Hacer imagen de game over
+class GameOver {
+    constructor(x, y, width, height){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.goImg = new Image();
+        this.goImg.scr ="https://imagizer.imageshack.com/img923/4189/KiFLNY.png"
+    }
+
+    // Método para dibujar la imagen de Game Over cuando perdamos
+    drawGameOver(){
+        console.log("se imprime el Game Over?")
+        ctx.drawImage(
+            this.goImg,
+            this.x,
+            this.y, 
+            this.width,
+            this.height
+            )
     }
 }
